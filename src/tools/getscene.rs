@@ -196,5 +196,7 @@ pub async fn get_scene(
         }
     }
 
-    serde_json::to_string(&all_scene).unwrap_or_else(|_| "[]".to_string())
+    all_scene.retain(|_folder_id, metadata| scene.contains(&metadata.scenename));
+    
+    serde_json::to_string(&all_scene).unwrap_or_else(|_| "{}".to_string())
 }
