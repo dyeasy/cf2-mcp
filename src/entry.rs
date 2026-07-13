@@ -7,7 +7,6 @@
 use rmcp::{handler::server::wrapper::Parameters, tool, tool_router};
 
 use crate::tools::{
-    self,
     createfolder::{CreateFolderBusinessParams, create_folder_business},
     createscene::{CreateSceneParams, create_scene},
     getscene::{GetSceneParams, get_scene},

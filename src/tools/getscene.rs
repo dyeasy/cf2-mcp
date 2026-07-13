@@ -8,7 +8,12 @@
 use globset::{Glob, GlobSet, GlobSetBuilder};
 use rmcp::handler::server::wrapper::Parameters;
 use serde::{Deserialize, Serialize};
-use std::{collections::HashMap, error::Error, fs, path::Path};
+use std::{
+    collections::HashMap,
+    error::Error,
+    fs,
+    path::{Component, Path, PathBuf},
+};
 use walkdir::WalkDir;
 
 #[derive(Serialize, Deserialize, Debug, Default)]
@@ -71,11 +76,13 @@ pub fn file_target_type<P: AsRef<Path>>(
     matcher_config: &GlobSet,
 ) -> FileTarget {
     let path_ref = path.as_ref();
+    let split_path = Path::new(base_path).file_name().expect("解析出错");
     if matcher_router.is_match(path_ref) {
-        let display_path = path_ref
-            .strip_prefix(base_path)
-            .map(|p| p.to_string_lossy().to_string())
-            .unwrap_or_default();
+        let parts: PathBuf = path_ref
+            .components()
+            .skip_while(|c| c.as_os_str() != split_path)
+            .collect();
+        let display_path = parts.to_string_lossy().into_owned();
         let file_name = path_ref
             .file_name()
             .map(|f| f.to_string_lossy())
@@ -134,6 +141,11 @@ pub async fn get_scene(
     );
 
     let target_dir_path = Path::new(&path);
+
+    let aaaa = target_dir_path
+        .file_name()
+        .and_then(|f| f.to_str())
+        .unwrap_or("ddd");
 
     let matcher_router = create_global_matcher(&[
         "**/actions/*.ts",
@@ -197,6 +209,6 @@ pub async fn get_scene(
     }
 
     all_scene.retain(|_folder_id, metadata| scene.contains(&metadata.scenename));
-    
+
     serde_json::to_string(&all_scene).unwrap_or_else(|_| "{}".to_string())
 }
