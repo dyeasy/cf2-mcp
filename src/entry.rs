@@ -7,7 +7,7 @@
 use rmcp::{handler::server::wrapper::Parameters, tool, tool_router};
 
 use crate::tools::{
-    createfolder::{CreateFolderBusinessParams, create_folder_business},
+    createbusinessdir::{CreateFolderBusinessParams, create_business_dir},
     createscene::{CreateSceneParams, create_scene},
     getscene::{GetSceneParams, get_scene},
 };
@@ -22,12 +22,12 @@ impl Cf2 {
     pub async fn get_scene(&self, params: Parameters<GetSceneParams>) -> String {
         get_scene(params).await
     }
-    #[tool(description = "用来放置业务代码的文件夹，也就是开发目录")]
-    pub async fn create_folder_business(
+    #[tool(description = "用来放置业务代码的文件夹，也就是开发目录，这是一个放置在 src/目录下的的业务文件夹，只能是唯一的")]
+    pub async fn create_business_dir(
         &self,
         params: Parameters<CreateFolderBusinessParams>,
     ) -> String {
-        create_folder_business(params).await
+        create_business_dir(params).await
     }
     #[tool(description = "这是用来创建场景的")]
     pub async fn create_scene(&self, params: Parameters<CreateSceneParams>) -> String {

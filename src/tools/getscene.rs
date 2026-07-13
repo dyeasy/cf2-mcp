@@ -142,11 +142,6 @@ pub async fn get_scene(
 
     let target_dir_path = Path::new(&path);
 
-    let aaaa = target_dir_path
-        .file_name()
-        .and_then(|f| f.to_str())
-        .unwrap_or("ddd");
-
     let matcher_router = create_global_matcher(&[
         "**/actions/*.ts",
         "**/actions.ts",
