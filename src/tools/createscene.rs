@@ -16,11 +16,11 @@ pub struct CreateSceneParams {
 }
 pub async fn create_scene(
     Parameters(CreateSceneParams { name, path }): Parameters<CreateSceneParams>,
-) -> String {
+) -> Result<String, String> {
     eprintln!(
         "[Rust MCP] ⚡️ 大模型调用了 create_scene 工具！接收参数 name:{} path:{}",
         name, path
     );
 
-    "11112121".to_string()
+    Ok(format!("成功创建{}", name))
 }

@@ -134,7 +134,7 @@ pub struct SceneMetaData {
 
 pub async fn get_scene(
     Parameters(GetSceneParams { path, scene }): Parameters<GetSceneParams>,
-) -> String {
+) -> Result<String, String> {
     eprintln!(
         "[Rust MCP] ⚡️ 大模型调用了 get_scene 工具！接收参数 path:{} scene:{:?}",
         path, scene
@@ -205,5 +205,8 @@ pub async fn get_scene(
 
     all_scene.retain(|_folder_id, metadata| scene.contains(&metadata.scenename));
 
-    serde_json::to_string(&all_scene).unwrap_or_else(|_| "{}".to_string())
+    Ok(format!(
+        "最终找到的场景有:{}",
+        serde_json::to_string(&all_scene).unwrap_or_else(|_| "{}".to_string())
+    ))
 }
