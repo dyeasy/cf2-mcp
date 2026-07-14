@@ -27,12 +27,12 @@ fn create_global_matcher(patterns: &[&str]) -> Result<GlobSet, Box<dyn Error>> {
 }
 
 enum MatchFile {
-    App,
-    MutationsIndex,
-    Declare,
-    Types,
-    EffectsMain,
-    EffectsIndex,
+    App(String),
+    MutationsIndex(String),
+    Declare(String),
+    Types(String),
+    EffectsMain(String),
+    EffectsIndex(String),
 }
 
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
