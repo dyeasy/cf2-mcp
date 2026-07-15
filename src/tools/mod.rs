@@ -7,3 +7,4 @@
 pub mod getscene;
 pub mod createbusinessdir;
 pub mod createscene;
+pub mod getallscene;
